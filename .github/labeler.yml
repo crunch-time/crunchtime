@@ -1,0 +1,21 @@
+# Labels for Pull Requests
+# see pr-labeler.yml
+
+frontend:
+  - frontend/**/*
+
+backend:
+  - backend/**/*
+
+has-tests:
+  - /**/*.spec.js
+  - /backend/src/test/**/*
+
+config-change:
+  - pom.xml
+  - /**/pom.xml
+  - frontend/*.json
+  - frontend/*.config.js
+
+github-actions:
+  - .github/workflows/**/*
