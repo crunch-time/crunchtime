@@ -28,7 +28,7 @@ public class Proxy {
      * @param request ServletRequest object
      * @return The response from SERVER.
      */
-    @Cacheable(value="remote-entity", key="#request.getRequestURI()")
+    @Cacheable(value="remote-entity", key="#request.getQueryString()")
     public Object proxyRequest(HttpServletRequest request) {
 
         URI uri;
