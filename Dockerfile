@@ -17,4 +17,3 @@ ENV JAVA_OPTS=""
 
 EXPOSE 80
 ENTRYPOINT ["java", "-jar", "app.jar"]
-lkasklas
