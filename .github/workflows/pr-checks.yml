@@ -1,0 +1,23 @@
+name: Pull Request tests and checks
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build docker image 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build image
+        uses: docker/build-push-action@v2.2.1
+        with:
+          push: false
+          file: ./Dockerfile
