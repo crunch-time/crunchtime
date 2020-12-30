@@ -1,8 +1,9 @@
 name: "Label pull requests" # see .github/labeler.yml
 
 on:
-  pull_request:
   pull_request_target:
+    branches: 
+      - main
 
 jobs:
   triage:
