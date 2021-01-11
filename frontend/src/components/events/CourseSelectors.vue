@@ -320,7 +320,7 @@ export default {
   watch: {
     quarters: function() {
       if(this.quarters.length != 0) {
-      this.currentQuarter = this.quarters.map(q => q.quarter).sort()[this.quarters.length - 1];
+      this.currentQuarter = this.quarters.map(q => q.quarter).sort()[0]; //replace 0 with this.quarters.length - 1 for next quarter
       }
     },
      /**
