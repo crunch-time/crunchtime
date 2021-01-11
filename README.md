@@ -4,6 +4,6 @@ Crunchtime is a white-label application to help college students plan their clas
 
 See [the Wiki](https://github.com/crunch-time/crunchtime/wiki) for contribution instructions and reference information. The [backend](backend/) and [frontend](frontend/) directories have their own respective README's with more information.
 
-[Join the Slack group](https://join.slack.com/t/crunch-time-oss/shared_invite/zt-kpc8eewg-Q3VtKzuMWHTBu5xBDo51Ug) to get involved!
+Want to get involved? Check out the [good first issues](https://github.com/crunch-time/crunchtime/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) and post on [the discussion forums](https://github.com/crunch-time/crunchtime/discussions) if you have any questions or comments.
 
 Production builds of CrunchTime are [publicly available on DockerHub](https://hub.docker.com/repository/docker/crunchtimeapp/crunchtime#). ([Hosting instructions here](https://github.com/crunch-time/crunchtime/wiki/Hosting)) 
