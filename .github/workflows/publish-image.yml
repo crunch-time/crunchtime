@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  push_to_registry:
+  push_to_dockerhub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
@@ -27,3 +27,26 @@ jobs:
           push: true
           tags: crunchtimeapp/crunchtime:${{ github.event.release.tag_name }}
           file: ./Dockerfile
+
+  push_to_github:
+    name: Push Docker image to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v1 
+        with:          
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v2.2.1
+        with:
+          push: true
+          registry: docker.pkg.github.com
+          repository: crunch-time/crunchtime/crunchtime:${{ github.event.release.tag_name }}
