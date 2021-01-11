@@ -40,7 +40,8 @@ jobs:
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v1 
-        with:          
+        with:
+          registry: docker.pkg.github.com   
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
@@ -48,5 +49,5 @@ jobs:
         uses: docker/build-push-action@v2.2.1
         with:
           push: true
-          registry: docker.pkg.github.com
-          repository: crunch-time/crunchtime/crunchtime:${{ github.event.release.tag_name }}
+          tags: crunch-time/crunchtime/crunchtime:${{ github.event.release.tag_name }}
+          file: ./Dockerfile
