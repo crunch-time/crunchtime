@@ -1,0 +1,171 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: crunchtime-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: crunchtimeapp
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 80                  # I think this should match the containerPort below
+    protocol: TCP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crunchtime
+spec:
+  selector:                         # Specifies how the deployment "selects" the pods to manage. (So this points to the label inside the pod template)
+    matchLabels:
+      app: crunchtimeapp
+  replicas: 3                       # Number of replicas for the pod
+  template:                         # Template for the pod (defines labels, containers, storage, ports)
+    metadata:
+      labels:                       # Labels for the pod
+        app: crunchtimeapp
+    spec:                           # Template for the pod
+      containers:                   # Containers to run in the pod
+      - name: crunchtimeapp
+        image: crunchtimeapp/crunchtime:1.0.1
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        env:
+          - name:  SPRING_DATASOURCE_URL
+            value: "jdbc:postgresql://crunchtime-db-service:5432/crunchtime_db"
+          - name:  SPRING_DATASOURCE_USERNAME
+            value: admin
+          - name:  SPRING_DATASOURCE_PASSWORD
+            value: password
+          - name:  SPRING_REDIS_HOST
+            value: crunchtime-cache
+          - name:  SPRING_REDIS_PORT
+            value: "6739"
+          # - name:  SPRING_REDIS_PASSWORD
+          #   value: xxx
+          # - name: spring.security.oauth2.client.registration.google.client-id # capitalize
+          #   value: XXX
+          # - name: spring.security.oauth2.client.registration.google.client-secret  # capitalize
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crunchtime-cache
+spec:
+  selector:                         # Specifies how the deployment "selects" the pods to manage. (So this points to the label inside the pod template)
+    matchLabels:
+      app: crunchtime-cache
+  replicas: 1                       # Number of replicas for the pod
+  template:                         # Template for the pod (defines labels, containers, storage, ports)
+    metadata:
+      labels:                       # Labels for the pod
+        app: crunchtime-cache
+    spec:                           # Template for the pod
+      containers:     
+      - name: redis
+        image: redis:alpine
+        resources:
+            limits:
+              memory: 128Mi
+              cpu: 500m
+        ports:
+          - containerPort: 6739
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crunchtime-db
+spec:
+  selector:                         # Specifies how the deployment "selects" the pods to manage. (So this points to the label inside the pod template)
+    matchLabels:
+      app: crunchtime-db
+  replicas: 1                        # Number of replicas for the pod
+  template:                         # Template for the pod (defines labels, containers, storage, ports)
+    metadata:
+      labels:                       # Labels for the pod
+        app: crunchtime-db
+    spec:                           # Template for the pod
+      containers:     
+      - name: postgres
+        image: postgres:9.6
+        resources:
+          limits:
+            memory: 128Mi
+            cpu: 500m
+        ports:
+          - containerPort: 5432
+        env:
+          - name: POSTGRES_PASSWORD
+            value: password
+          - name: POSTGRES_USER
+            value: admin
+          - name: POSTGRES_DB
+            value: crunchtime_db
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgresdb
+      volumes:
+        - name: postgresdb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crunchtime-db-service
+spec:
+  selector:
+    app: crunchtime-db
+  ports:
+  - port: 5432
+    targetPort: 5432
+
+---
+#https://severalnines.com/database-blog/using-kubernetes-deploy-postgresql
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv-volume
+  labels:
+    type: local
+    app: postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-pv-claim
+  labels:
+    app: postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: config
+# data:
+#   key: value
