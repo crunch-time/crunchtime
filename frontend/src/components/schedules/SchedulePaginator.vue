@@ -216,7 +216,7 @@
           :schedule="this.filteredAndSortedSchedules.slice((this.currentPage-1)*this.currentView, this.currentPage*this.currentView)"
           v-if="currentView == 10"
           :showEditButton="showEditButton"
-          :courses="$store.getters.selectedCourses">
+          :courses="$store.state.selectedCourses">
         </ListView>
         <ScheduleView
           :schedules="schedulesToRender"
@@ -378,7 +378,7 @@ export default {
             }
         },
         customEvents: function(){
-          return this.$store.getters.selectedCustomEvents;
+          return this.$store.state.selectedCustomEvents;
         },
         classSections: function(){
           return this.$store.getters.selectedClassSections;

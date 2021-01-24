@@ -7,7 +7,7 @@
         :md="numColumns">
         <Schedule
           :schedule="schedule"
-          :courses="$store.getters.selectedCourses"
+          :courses="$store.state.selectedCourses"
           :showEditButton="showEditButton"
           class="mb-4"
         ></Schedule>

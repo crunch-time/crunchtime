@@ -62,7 +62,7 @@ export default {
             } else {
                 this.schedules.push.apply(this.schedules, response.data.schedules);
                 this.schedules.forEach((item) => {
-                  item.quarter = this.$store.getters.selectedQuarter;
+                  item.quarter = this.$store.state.selectedQuarter;
                 });
 
                 lastIndex = currentIndex;
@@ -78,10 +78,10 @@ export default {
   },
   computed: {
     customEvents: function(){
-      return this.$store.getters.selectedCustomEvents;
+      return this.$store.state.selectedCustomEvents;
     },
     courses: function(){
-      return this.$store.getters.selectedCourses;
+      return this.$store.state.selectedCourses;
     },
     classSections: function(){
       return this.$store.getters.selectedClassSections;
