@@ -46,7 +46,7 @@
                     <div v-for="course in  $store.state.selectedCourses" v-bind:key="course.title">
                         <CourseListItem class="selected-course" :course="course">
                             <template v-slot:buttons>
-                                <a @click="$store.commit('removeSelectedCourse', course.courseId)" class="remove-event">
+                                <a id="deselectCourse" @click="$store.commit('removeSelectedCourse', course.courseId)" class="remove-event">
                                     <font-awesome-icon
                                         v-b-tooltip.hover
                                         title="Deselect course"
@@ -55,7 +55,7 @@
                                         class="mr-2"/>
                                 </a>
                                 <b-tooltip :target="'deselect-course-icon'+course.title">Deselect course</b-tooltip>
-                                <a @click="$eventHub.$emit('edit-classes-for-course', course.courseId)" class="edit-event">
+                                <a id="editCourse" @click="$eventHub.$emit('edit-classes-for-course', course.courseId)" class="edit-event">
                                     <font-awesome-icon
                                         v-b-tooltip.hover
                                         title="Edit class section selections"
@@ -71,7 +71,7 @@
                     >
                         <CustomEventListItem class="custom-event" :customEvent="customEvent">
                             <template v-slot:buttons>
-                                <a @click="$store.commit('removeCustomEvent', customEvent.name)" class="remove-event">
+                                <a id="deleteCustomEvent" @click="$store.commit('removeCustomEvent', customEvent.name)" class="remove-event">
                                     <font-awesome-icon
                                         icon="trash-alt"
                                         :id="'delete-event-icon'+customEvent.name"
@@ -80,7 +80,7 @@
                                         class="mr-2"/>
                                 </a>
                                 <b-tooltip :target="'delete-event-icon'+customEvent.name">Delete custom event</b-tooltip>
-                                <a @click="$eventHub.$emit('edit-custom-event', customEvent)" class="edit-event">
+                                <a id="editCustomEvent" @click="$eventHub.$emit('edit-custom-event', customEvent)" class="edit-event">
                                     <font-awesome-icon
                                         v-b-tooltip.hover
                                         :id="'edit-event-icon'+customEvent.name"
@@ -169,4 +169,19 @@ export default {
     cursor:pointer
 }
 
+#deselectCourse:hover {
+    cursor: pointer;
+}
+
+#editCourse:hover {
+    cursor: pointer;
+}
+
+#deleteCustomEvent:hover {
+    cursor: pointer;
+}
+
+#editCustomEvent:hover {
+    cursor: pointer;
+}
 </style>

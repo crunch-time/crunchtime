@@ -123,6 +123,7 @@
                   :title="'Add '+course.fullCourseNumber"
                   icon="plus-square"
                   size="lg"
+                  id="addCourse"
                   @click="$store.commit('addSelectedCourse', course)"
               />
             </template>
@@ -346,5 +347,9 @@ export default {
 <style>
 .course-search-results {
   overflow-y: scroll;
+}
+
+#addCourse:hover {
+    cursor: pointer;
 }
 </style>
