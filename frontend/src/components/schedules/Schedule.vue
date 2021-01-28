@@ -185,7 +185,7 @@ export default {
       return this.parseScheduleToEventList(this.schedule, this.coursesComputed);
     },
     quarter: function () {
-      return this.$store.getters.selectedQuarter;
+      return this.$store.state.selectedQuarter;
     },
   },
   methods: {

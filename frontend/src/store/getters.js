@@ -33,15 +33,6 @@ export default {
 
         return userInfo;
     },
-    /**
-     * Returns the selected quarter
-     */
-    selectedQuarter: state => state.selectedQuarter,
-
-    /**
-     * Returns the selected courses
-     */
-    selectedCourses: state => state.selectedCourses,
 
     /**
      * Returns a flat list of all the selected classSections
@@ -52,13 +43,6 @@ export default {
             .flatMap(course => course.classSections)
             .filter(class_ => class_.selected == true);
     },
-
-
-    /**
-     * Returns the selected custom events
-     */
-    selectedCustomEvents: state => state.selectedCustomEvents,
-
 
     /**
      * Returns boolean indicating if the current selected courses conflict.

@@ -184,7 +184,7 @@ export default {
   },
   computed: {
     quarter: function () {
-      return this.$store.getters.selectedQuarter;
+      return this.$store.state.selectedQuarter;
     },
     classSections: function(){
       var allSections = [];

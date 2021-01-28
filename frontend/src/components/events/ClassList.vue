@@ -79,7 +79,7 @@ export default {
   },
   computed: {
     course: function() {
-      return this.$store.getters.selectedCourses.find(c => c.courseId == this.courseId);
+      return this.$store.state.selectedCourses.find(c => c.courseId == this.courseId);
     },
     classSections: function() {
       return (this.courseId == null) ? [] : this.course.classSections;
