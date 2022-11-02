@@ -162,3 +162,6 @@ backend/src/main/resources/public/
 
 # NPM config file
 .npmrc
+
+# Ignore any locally-generated ARM templates from the Bicep files
+infrastructure.json
